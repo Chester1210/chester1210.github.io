@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>音乐 - 夏立琉的 Apple Music</title>
+  <link rel="stylesheet" href="css/music.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- 背景 -->
+  <div class="bg-wrapper"></div>
+
+  <!-- 顶部栏 -->
+  <header class="topbar glass">
+    <div class="topbar-container">
+      <!-- 左：返回 -->
+      <a href="index.html" class="back-btn">
+        <i class="fas fa-chevron-left"></i>
+      </a>
+
+      <!-- 中间：播放信息 + 音量（居中方框） -->
+      <div class="center-player-box glass">
+        <!-- 播放信息 -->
+        <div class="track-info">
+          <img id="miniCover" src="./music/cover.jpg" alt="封面" class="mini-cover" />
+          <div class="track-text">
+            <div id="miniTitle">golden hour</div>
+            <div id="miniArtist">JVKE - golden hour - Single</div>
+          </div>
+        </div>
+
+        <!-- 播放控制按钮 -->
+        <div class="mini-controls">
+          <button id="miniPrev" class="ctrl-btn"><i class="fas fa-step-backward"></i></button>
+          <button id="miniPlay" class="ctrl-btn play"><i class="fas fa-play"></i></button>
+          <button id="miniNext" class="ctrl-btn"><i class="fas fa-step-forward"></i></button>
+          <button id="miniQueue" class="ctrl-btn"><i class="fas fa-list-ul"></i></button>
+        </div>
+
+        <!-- 音量条 -->
+        <div class="volume-control">
+          <i class="fas fa-volume-up"></i>
+          <div class="volume-bar">
+            <div class="volume-fill"></div>
+          </div>
+        </div>
+
+        <!-- 进度条 -->
+        <div class="mini-progress-container">
+          <div class="mini-progress-fill" id="miniProgressFill"></div>
+        </div>
+      </div>
+
+      <!-- 右：主题切换 -->
+      <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 主内容 -->
+  <div class="music-main">
+    <!-- 左侧菜单 -->
+    <nav class="music-sidebar glass">
+      <div class="sidebar-header">
+        <h2><i class="fab fa-apple"></i> Music</h2>
+        <form id="searchForm" class="sidebar-search">
+          <input type="text" id="searchInput" placeholder="搜索歌曲、专辑、艺人…" value="golden hour" />
+        </form>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="#" class="active"><i class="fas fa-home"></i> 主页</a></li>
+        <li><a href="#"><i class="fas fa-search"></i> 新发现</a></li>
+        <li><a href="#"><i class="fas fa-radio"></i> 广播</a></li>
+      </ul>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="music-content">
+      <!-- 专辑详情 -->
+      <div class="album-detail">
+        <img src="./music/cover.jpg" alt="golden hour" class="album-cover" />
+        <div class="album-info">
+          <h1>golden hour - Single</h1>
+          <h2>JVKE</h2>
+          <p class="meta">国际流行 · 2022年</p>
+          <button class="play-btn">试听</button>
+          <div class="album-meta">
+            <p>2022年7月15日</p>
+            <p>1 首歌曲，3 分钟</p>
+            <p>© 2022 JVKE under license to Liquid State</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 推荐 -->
+      <section class="recommend">
+        <h3>更多JVKE的作品 ></h3>
+        <div class="recommend-grid">
+          <div class="album-card">
+            <img src="https://picsum.photos/300?random=1" alt="" />
+            <p>ROMANCE: UNTOLD</p>
+          </div>
+          <div class="album-card">
+            <img src="https://picsum.photos/300?random=2" alt="" />
+            <p>Upside Down</p>
+          </div>
+          <div class="album-card">
+            <img src="https://picsum.photos/300?random=3" alt="" />
+            <p>golden hour (Remix)</p>
+          </div>
+          <div class="album-card">
+            <img src="https://picsum.photos/300?random=4" alt="" />
+            <p>JVKE</p>
+          </div>
+          <div class="album-card">
+            <img src="https://picsum.photos/300?random=5" alt="" />
+            <p>golden hour</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <audio id="audio" preload="metadata" src="./music/track1.mp3"></audio>
+
+  <script src="js/music.js"></script>
+  <script>
+    // === 主题切换逻辑（修复 + 本地存储）===
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    const moonIcon = '<i class="fas fa-moon"></i>';
+    const sunIcon = '<i class="fas fa-sun"></i>';
+
+    // 初始化
+    const saved = localStorage.getItem('darkMode') === 'true';
+    if (saved) {
+      body.classList.add('dark-mode');
+      themeToggle.innerHTML = sunIcon;
+    } else {
+      body.classList.remove('dark-mode');
+      themeToggle.innerHTML = moonIcon;
+    }
+
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      const isDark = body.classList.contains('dark-mode');
+      themeToggle.innerHTML = isDark ? sunIcon : moonIcon;
+      localStorage.setItem('darkMode', isDark);
+    });
+  </script>
+</body>
+</html>

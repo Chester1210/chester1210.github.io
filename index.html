@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>夏立琉的博客</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header class="topbar glass" role="banner">
+    <button id="menuToggle" class="menu-toggle" aria-label="打开菜单">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="site-title">夏立琉的博客</div>
+
+    <div class="topbar-right">
+      <form action="https://www.bing.com/search" target="_blank" method="GET" class="bing-search" id="bingForm">
+        <input type="text" name="q" placeholder="搜索 Bing..." class="bing-search-input" autocomplete="off" />
+        <button type="submit" class="bing-search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+      <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 左侧菜单 -->
+  <nav id="sideMenu" class="side-menu" aria-hidden="true">
+    <div class="side-menu-inner">
+      <ul class="nav-list">
+        <li><a href="#" class="nav-link"><i class="fas fa-home"></i> 首页</a></li>
+        <li><a href="#" class="nav-link"><i class="fas fa-pencil-alt"></i> 博客</a></li>
+        <li><a href="#" class="nav-link"><i class="fas fa-code"></i> 项目</a></li>
+        <li><a href="#" class="nav-link"><i class="fas fa-folder"></i> 网盘资源</a></li>
+        <li><a href="#" class="nav-link"><i class="fas fa-envelope"></i> 联系我</a></li>
+        <li><a href="./music.html" class="nav-link"><i class="fas fa-music"></i> 播客</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="overlay" class="overlay"></div>
+
+  <div class="container">
+    <aside class="left-panel">
+      <div class="profile-card glass">
+        <img src="assets/avatar.jpg" alt="夏立琉" class="avatar" />
+        <h1>夏立琉</h1>
+        <p class="tagline">Python Developer</p>
+        <a href="https://github.com/Chester1210" target="_blank" class="github-btn">
+          <i class="fab fa-github"></i> 访问我的 GitHub
+        </a>
+        <div class="stats">
+          <div class="stat">
+            <span class="number" id="repo-count">加载中...</span>
+            <span class="label">总仓库数</span>
+          </div>
+          <div class="stat">
+            <span class="number" id="total-stars">加载中...</span>
+            <span class="label">总 Stars</span>
+          </div>
+        </div>
+        <div class="skills">
+          <h3><i class="fas fa-cogs"></i> 技术栈</h3>
+          <div class="tags">
+            <span class="tag"><i class="fab fa-html5"></i> HTML/CSS</span>
+            <span class="tag"><i class="fab fa-python"></i> Python</span>
+            <span class="tag"><i class="fab fa-js"></i> JavaScript</span>
+            <span class="tag"><i class="fas fa-terminal"></i> Shell</span>
+            <span class="tag"><i class="fab fa-java"></i> Java</span>
+          </div>
+        </div>
+        <div class="contribution">
+          <h3><i class="fas fa-chart-bar"></i> GitHub 活跃度</h3>
+          <img id="contribution-chart" src="" alt="Contribution Graph" class="chart" />
+        </div>
+      </div>
+    </aside>
+
+    <main class="right-panel">
+      <div class="intro-card glass">
+        <h2><i class="fas fa-user"></i> 个人介绍</h2>
+        <ul>
+          <li>你好！我是夏立琉</li>
+          <li>一个喜欢在文字、代码和创意中自由漫步的人。</li>
+          <li>在这里，我记录生活、分享技术、探索艺术与科技交汇的瞬间。</li>
+          <li>我热爱手绘、日系文化、Vocaloid音乐，也喜欢研究计算机与互联网的各种可能性。</li>
+          <li>这个博客是我的小天地，你可以看到我写的笔记、代码实践、随想，以及偶尔的音乐和旅行分享。</li>
+          <li>如果你和我有相似的兴趣，或者对技术与创意的结合感兴趣，希望这里能给你一些启发。</li>
+          <li>欢迎留言、讨论，也欢迎你带着好奇心和我一起探索未知的世界。</li>
+          <li>要是有什么想提问或聊聊，欢迎联系我哦～</li>
+        </ul>
+      </div>
+
+      <div class="projects-card glass">
+        <h2><i class="fas fa-code-branch"></i> 最近项目</h2>
+        <div id="repo-list" class="repo-list">
+          <p class="loading">加载中...</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/github.js"></script>
+  <script>
+    // 你的 JS 保持不变
+    (function () {
+      const menuToggle = document.getElementById('menuToggle');
+      const sideMenu = document.getElementById('sideMenu');
+      const overlay = document.getElementById('overlay');
+      const themeToggle = document.getElementById('themeToggle');
+      const themeIcon = themeToggle.querySelector('i');
+      const bingForm = document.getElementById('bingForm');
+      const input = bingForm.querySelector('.bing-search-input');
+      const btn = bingForm.querySelector('.bing-search-btn');
+
+      function openMenu() { sideMenu.classList.add('open'); overlay.classList.add('show'); }
+      function closeMenu() { sideMenu.classList.remove('open'); overlay.classList.remove('show'); }
+      menuToggle.addEventListener('click', () => sideMenu.classList.contains('open') ? closeMenu() : openMenu());
+      overlay.addEventListener('click', closeMenu);
+
+      function setTheme(isDark) {
+        document.body.classList.toggle('dark-mode', isDark);
+        themeIcon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        localStorage.setItem('darkMode', isDark);
+      }
+      const saved = localStorage.getItem('darkMode');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(saved === 'true' || (!saved && prefersDark));
+      themeToggle.addEventListener('click', () => setTheme(!document.body.classList.contains('dark-mode')));
+
+      if (window.innerWidth <= 768) {
+        bingForm.classList.remove('expanded');
+        btn.addEventListener('click', (e) => {
+          if (!bingForm.classList.contains('expanded')) {
+            e.preventDefault();
+            bingForm.classList.add('expanded');
+            setTimeout(() => input.focus(), 120);
+          }
+        });
+        document.addEventListener('click', (e) => {
+          if (!bingForm.contains(e.target) && bingForm.classList.contains('expanded')) {
+            bingForm.classList.remove('expanded');
+          }
+        });
+        bingForm.addEventListener('submit', () => {
+          setTimeout(() => bingForm.classList.remove('expanded'), 300);
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
