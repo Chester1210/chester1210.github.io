@@ -77,7 +77,10 @@
         </div>
         <div class="contribution">
           <h3><i class="fas fa-chart-bar"></i> GitHub 活跃度</h3>
-          <img id="contribution-chart" src="" alt="Contribution Graph" class="chart" />
+          <img id="contribution-chart"
+           src="https://github-readme-activity-graph.vercel.app/graph?username=Chester1210&bg_color=ffffff00&color=777&line=3b82f6&point=3b82f6&area=true&hide_border=true"
+           alt="Contribution Graph"
+           class="chart" />
         </div>
       </div>
     </aside>
@@ -153,6 +156,24 @@
         });
       }
     })();
+
+    function updateGraph() {
+     const isDark = document.body.classList.contains("dark-mode");
+  const chart = document.getElementById("contribution-chart");
+
+  chart.src =
+    "https://github-readme-activity-graph.vercel.app/graph?username=Chester1210" +
+    (isDark
+      ? "&bg_color=00000000&color=fff&line=60a5fa&point=93c5fd&area=true&hide_border=true"
+      : "&bg_color=ffffff00&color=333&line=3b82f6&point=3b82f6&area=true&hide_border=true");
+}
+
+// 主题切换后刷新图表
+themeToggle.addEventListener("click", updateGraph);
+
+// 页面加载完成后执行一次
+updateGraph();
+
   </script>
 
 </body>

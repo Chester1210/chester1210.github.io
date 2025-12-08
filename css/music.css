@@ -1,211 +1,375 @@
-/* === 核心变量：浅色默认 === */
-:root {
-  --bg-glass: rgba(255, 255, 255, 0.25);
-  --border-glass: rgba(255, 255, 255, 0.4);
-  --text: #1a1a1a;
-  --text-light: #555;
-  --accent: #8b5cf6;
-  --bg-body: #f8f9fa;
-  --blur: blur(16px);
-  --radius: 20px;
-  --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  --gap: 20px;
-  --input-bg: rgba(255, 255, 255, 0.7);
-  --input-border: rgba(0, 0, 0, 0.15);
-  --placeholder: rgba(0, 0, 0, 0.5);
-  --progress-bg: rgba(0, 0, 0, 0.1);
-}
-
-/* 深色模式 */
-body.dark-mode {
-  --bg-glass: rgba(0, 0, 0, 0.45);
-  --border-glass: rgba(255, 255, 255, 0.15);
-  --text: #ffffff;
-  --text-light: #cccccc;
-  --bg-body: #000000;
-  --input-bg: rgba(0, 0, 0, 0.4);
-  --input-border: rgba(255, 255, 255, 0.2);
-  --placeholder: rgba(255, 255, 255, 0.6);
-  --progress-bg: rgba(255, 255, 255, 0.1);
-}
-
-/* === 重置 === */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+/* =========================
+   全局变量（浅色模式）
+========================= */
+/* 全局背景图 */
 body {
-  font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-  background: var(--bg-body) url('../assets/background.jpg') center/cover fixed;
+  background: url("/assets/background.jpg") center/cover no-repeat fixed;
+}
+
+:root {
+  --bg: #f5f5f7;
+  --glass-bg: rgba(255, 255, 255, 0.20);
+  --text: #1d1d1f;
+  --text-light: #6e6e73;
+  --accent: #007aff;
+  --shadow: rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   深色模式变量
+========================= */
+body.dark-mode {
+  --bg: #000;
+  --glass-bg: rgba(255, 255, 255, 0.08);
+  --text: #fff;
+  --text-light: #8e8e93;
+  --accent: #0a84ff;
+  --shadow: rgba(255, 255, 255, 0.05);
+}
+
+/* =========================
+   全局基础
+========================= */
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: "SF Pro Display", "SF Pro Text", Helvetica, Arial, sans-serif;
+  background: var(--bg);
   color: var(--text);
-  min-height: 100vh;
-  position: relative;
-}
-body::before {
-  content: ''; position: fixed; inset: 0;
-  background: rgba(0, 0, 0, 0.05); z-index: -1;
-  transition: background 0.3s ease;
-}
-body.dark-mode::before { background: rgba(0, 0, 0, 0.35); }
-
-/* === 毛玻璃 === */
-.glass {
-  background: var(--bg-glass);
-  backdrop-filter: var(--blur);
-  -webkit-backdrop-filter: var(--blur);
-  border: 1px solid var(--border-glass);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  transition: all 0.3s ease;
+  height: 100%;
 }
 
-/* === 顶部栏 === */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  user-select: none;
+}
+
+/* =========================
+   背景层模糊
+========================= */
+.bg-wrapper {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  z-index: -1;
+}
+
+/* =========================
+   顶部栏
+========================= */
 .topbar {
-  position: fixed; top: 0; left: 0; right: 0; height: 60px;
-  z-index: 2000; padding: 0 16px;
-  display: flex; align-items: center; justify-content: center;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 70px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 var(--shadow);
+  z-index: 50;
 }
+
 .topbar-container {
-  display: flex; align-items: center; width: 100%; max-width: 900px;
-  justify-content: space-between;
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 返回 + 主题按钮 */
-.back-btn, .theme-toggle, .ctrl-btn {
-  background: none; border: none; color: var(--text);
-  font-size: 1.2rem; cursor: pointer; padding: 8px;
-  border-radius: 50%; transition: 0.2s;
-}
-.back-btn:hover, .theme-toggle:hover, .ctrl-btn:hover {
-  background: rgba(139, 92, 246, 0.2);
+/* =========================
+   玻璃拟态通用类
+========================= */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-/* === 居中播放器方框 === */
-.center-player-box {
+/* =========================
+   返回按钮（左侧固定）
+========================= */
+.back-btn {
   position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  width: auto; min-width: 420px; max-width: 600px;
-  padding: 10px 16px;
-  display: flex; align-items: center; gap: 14px;
-  border-radius: 16px;
-  z-index: 1;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  display: grid;
+  place-items: center;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
-/* 封面 + 文字 */
+body.dark-mode .back-btn {
+  background: rgba(255,255,255,0.12);
+}
+
+.back-btn:hover {
+  transform: translateY(-50%) scale(1.06);
+}
+
+/* =========================
+   主题切换按钮（右侧固定）
+========================= */
+#themeToggle {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  color: var(--text);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+body.dark-mode #themeToggle {
+  background: rgba(255,255,255,0.12);
+}
+
+#themeToggle:hover {
+  transform: translateY(-50%) scale(1.06);
+}
+
+/* =========================
+   迷你播放器（中间）
+========================= */
+.center-player-box {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border-radius: 14px;
+  height: 46px;
+  position: relative;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
 .track-info {
-  display: flex; align-items: center; gap: 10px; min-width: 0; flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
 .mini-cover {
-  width: 36px; height: 36px; border-radius: 6px; object-fit: cover;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
 }
+
 .track-text {
-  min-width: 0; flex: 1;
-}
-#miniTitle {
-  font-weight: 600; font-size: 0.9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-#miniArtist {
-  font-size: 0.75rem; color: var(--text-light); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
 }
 
-/* 控制按钮组 */
+.track-text #miniTitle {
+  font-weight: 600;
+}
+
+.track-text #miniArtist {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+/* ===== 按钮组 ===== */
 .mini-controls {
-  display: flex; align-items: center; gap: 6px;
+  display: flex;
+  align-items: center;
+  margin-left: 20px;
+  gap: 16px;
 }
 
-/* 音量控制 */
-.volume-control {
-  display: flex; align-items: center; gap: 6px;
-}
-.volume-bar {
-  width: 60px; height: 4px; background: var(--progress-bg); border-radius: 2px;
-}
-.volume-fill {
-  height: 100%; width: 70%; background: var(--accent); border-radius: 2px;
-}
-
-/* 进度条 */
-.mini-progress-container {
-  position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-  background: var(--progress-bg); border-radius: 0 0 16px 16px;
-}
-#miniProgressFill {
-  height: 100%; width: 35%; background: var(--accent);
-}
-
-/* === 左侧菜单 === */
-.music-sidebar {
-  width: 280px; padding: 24px; position: relative;
-}
-.sidebar-header h2 {
-  font-size: 1.5rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
-}
-.sidebar-search input {
-  width: 100%; padding: 10px 14px; border-radius: 50px;
-  background: var(--input-bg); border: 1px solid var(--input-border);
-  color: var(--text); font-size: 0.95rem; outline: none;
-}
-.sidebar-search input::placeholder { color: var(--placeholder); }
-.sidebar-search input:focus {
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
-}
-.sidebar-nav a {
-  display: flex; align-items: center; gap: 12px;
-  padding: 10px 12px; border-radius: 12px; color: var(--text);
-  text-decoration: none; font-size: 0.95rem; opacity: 0.85;
+.ctrl-btn {
+  font-size: 1rem;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  cursor: pointer;
   transition: 0.2s;
 }
-.sidebar-nav a:hover, .sidebar-nav a.active {
-  background: rgba(139, 92, 246, 0.2); color: var(--accent); opacity: 1;
+
+.ctrl-btn.play {
+  font-size: 1.2rem;
 }
 
-/* === 主内容 === */
+.ctrl-btn:hover {
+  transform: scale(1.15);
+}
+
+/* ===== 音量 ===== */
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 20px;
+}
+
+.volume-bar {
+  width: 80px;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.volume-fill {
+  width: 60%;
+  height: 100%;
+  background: var(--accent);
+}
+
+/* ===== 进度条 ===== */
+.mini-progress-container {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(255,255,255,0.25);
+  border-radius: 0 0 14px 14px;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  width: 30%;
+  background: var(--accent);
+}
+
+/* =========================
+   主体区域（侧栏 + 内容）
+========================= */
 .music-main {
-  display: flex; min-height: calc(100vh - 60px); margin-top: 60px;
+  display: flex;
+  margin-top: 70px;
 }
+
+.music-sidebar {
+  width: 260px;
+  height: calc(100vh - 70px);
+  padding: 20px;
+  border-right: 1px solid var(--shadow);
+}
+
+.sidebar-header h2 {
+  margin: 0 0 16px 0;
+  font-size: 1.3rem;
+}
+
+.sidebar-search input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: var(--glass-bg);
+  color: var(--text);
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+  margin-top: 20px;
+}
+
+.sidebar-nav li a {
+  display: block;
+  padding: 12px 0;
+  font-size: 1rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.sidebar-nav li a.active {
+  color: var(--accent);
+}
+
+/* =========================
+   主内容区
+========================= */
 .music-content {
-  flex: 1; padding: 32px; overflow-y: auto;
+  flex: 1;
+  padding: 40px;
 }
+
+/* ===== 专辑信息 ===== */
 .album-detail {
-  display: flex; gap: 24px; margin-bottom: 40px; align-items: flex-start;
+  display: flex;
+  gap: 40px;
+  margin-bottom: 40px;
 }
+
 .album-cover {
-  width: 220px; height: 220px; border-radius: 16px; object-fit: cover; box-shadow: var(--shadow);
+  width: 260px;
+  height: 260px;
+  border-radius: 20px;
+  box-shadow: 0 10px 20px var(--shadow);
 }
-.album-info h1 { font-size: 2rem; margin-bottom: 8px; }
-.album-info h2 { font-size: 1.4rem; color: var(--accent); margin-bottom: 8px; }
-.meta { color: var(--text-light); margin-bottom: 16px; }
+
+.album-info h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.album-info h2 {
+  color: var(--text-light);
+  margin: 8px 0;
+}
+
+.meta {
+  color: var(--text-light);
+}
+
 .play-btn {
-  background: var(--accent); color: white; border: none; padding: 12px 32px;
-  border-radius: 50px; font-weight: 600; cursor: pointer; transition: 0.2s;
+  padding: 10px 24px;
+  background: var(--accent);
+  border-radius: 14px;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  margin-top: 16px;
+  cursor: pointer;
 }
-.play-btn:hover { background: #7c4dff; transform: translateY(-1px); }
-.album-meta { margin-top: 16px; font-size: 0.9rem; color: var(--text-light); line-height: 1.6; }
 
-/* === 推荐 === */
-.recommend h3 { font-size: 1.3rem; margin-bottom: 16px; }
+.album-meta {
+  margin-top: 20px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+/* =========================
+   推荐区
+========================= */
+.recommend h3 {
+  margin-bottom: 20px;
+}
+
 .recommend-grid {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 20px;
 }
-.album-card img {
-  width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.album-card p {
-  margin-top: 8px; font-size: 0.9rem; text-align: center; color: var(--text);
-}
-.album-card:hover { transform: translateY(-4px); }
 
-/* === 响应式 === */
-@media (max-width: 768px) {
-  .topbar-container { padding: 0 8px; }
-  .center-player-box {
-    min-width: auto; padding: 8px 12px; gap: 8px;
-    transform: translate(-50%, -50%) scale(0.9);
-  }
-  .track-info { display: none; }
-  .mini-controls { gap: 4px; }
-  .volume-control { display: none; }
-  .music-main { flex-direction: column; }
-  .music-sidebar { width: 100%; padding: 16px; }
-  .album-detail { flex-direction: column; align-items: center; text-align: center; }
-  .album-cover { width: 180px; height: 180px; }
+.album-card img {
+  width: 100%;
+  border-radius: 14px;
+}
+
+.album-card p {
+  margin-top: 10px;
+  font-size: 0.9rem;
 }
