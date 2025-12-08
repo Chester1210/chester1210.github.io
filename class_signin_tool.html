@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>夏立琉的博客 - 班级签到工具</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- 顶部栏 -->
+  <header class="topbar glass" role="banner">
+    <button id="menuToggle" class="menu-toggle" aria-label="打开菜单">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="site-title">夏立琉的博客 - 班级签到</div>
+
+    <div class="topbar-right">
+      <form action="https://www.bing.com/search" target="_blank" method="GET" class="bing-search" id="bingForm">
+        <input type="text" name="q" placeholder="搜索 Bing..." class="bing-search-input" autocomplete="off" />
+        <button type="submit" class="bing-search-btn">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+      <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 左侧菜单 -->
+  <nav id="sideMenu" class="side-menu" aria-hidden="true">
+    <div class="side-menu-inner">
+      <ul class="nav-list">
+        <li><a href="#" class="nav-link"><i class="fas fa-home"></i> 首页</a></li>
+        <li><a href="#" class="nav-link"><i class="fas fa-pencil-alt"></i> 博客</a></li>
+        <li><a href="#" class="nav-link"><i class="fas fa-code"></i> 项目</a></li>
+        <li><a href="#" class="nav-link"><i class="fas fa-folder"></i> 网盘资源</a></li>
+        <li><a href="#" class="nav-link"><i class="fas fa-envelope"></i> 联系我</a></li>
+        <li><a href="./music.html" class="nav-link"><i class="fas fa-music"></i> 播客</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div id="overlay" class="overlay"></div>
+
+  <div class="container">
+    <aside class="left-panel">
+      <div class="profile-card glass">
+        <img src="assets/avatar.jpg" alt="夏立琉" class="avatar" />
+        <h1>夏立琉</h1>
+        <p class="tagline">Python Developer</p>
+        <a href="https://github.com/Chester1210" target="_blank" class="github-btn">
+          <i class="fab fa-github"></i> 访问我的 GitHub
+        </a>
+        <div class="stats">
+          <div class="stat">
+            <span class="number" id="repo-count">加载中...</span>
+            <span class="label">总仓库数</span>
+          </div>
+          <div class="stat">
+            <span class="number" id="total-stars">加载中...</span>
+            <span class="label">总 Stars</span>
+          </div>
+        </div>
+        <div class="skills">
+          <h3><i class="fas fa-cogs"></i> 技术栈</h3>
+          <div class="tags">
+            <span class="tag"><i class="fab fa-html5"></i> HTML/CSS</span>
+            <span class="tag"><i class="fab fa-python"></i> Python</span>
+            <span class="tag"><i class="fab fa-js"></i> JavaScript</span>
+            <span class="tag"><i class="fas fa-terminal"></i> Shell</span>
+            <span class="tag"><i class="fab fa-java"></i> Java</span>
+          </div>
+        </div>
+        <div class="contribution">
+          <h3><i class="fas fa-chart-bar"></i> GitHub 活跃度</h3>
+          <img id="contribution-chart"
+           src="https://github-readme-activity-graph.vercel.app/graph?username=Chester1210&bg_color=ffffff00&color=777&line=3b82f6&point=3b82f6&area=true&hide_border=true"
+           alt="Contribution Graph"
+           class="chart" />
+        </div>
+      </div>
+    </aside>
+
+    <main class="right-panel">
+      <div class="sign-in-card glass">
+        <h2><i class="fas fa-check-circle"></i> 班级签到点名工具</h2>
+        <div class="search-area" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <form id="signInForm" style="flex: 1; margin-right: 10px;">
+            <input type="text" id="studentId" placeholder="输入多个学号，用空格分隔..." class="bing-search-input" autocomplete="off" style="width: 100%;" />
+          </form>
+          <button id="statsButton" class="theme-toggle" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">
+            <i class="fas fa-chart-bar"></i> 统计
+          </button>
+        </div>
+        <ul id="studentList" class="student-list"></ul>
+      </div>
+    </main>
+  </div>
+
+<script src="js/github.js"></script>
+
+<!-- ★★★★★ 新版签到功能（核心区域已完全修复） ★★★★★ -->
+<script>
+(function () {
+
+  const students = [
+    { id: 1, name: '田芷妍', gender: '女' },
+    { id: 2, name: '张紫依', gender: '女' },
+    { id: 3, name: '肖锦鸿', gender: '男' },
+    { id: 4, name: '卢诗涵', gender: '女' },
+    { id: 5, name: '皮晶瑞', gender: '女' },
+    { id: 6, name: '杨卿雨', gender: '女' },
+    { id: 7, name: '李博宇', gender: '男' },
+    { id: 8, name: '李诗钰', gender: '女' },
+    { id: 9, name: '苏笑宇', gender: '女' },
+    { id: 10, name: '张歆钥', gender: '女' },
+    { id: 11, name: '肖茜匀', gender: '女' },
+    { id: 12, name: '苏先亮', gender: '男' },
+    { id: 13, name: '田芙蓉', gender: '女' },
+    { id: 14, name: '丁诗涵', gender: '女' },
+    { id: 15, name: '付雨昕', gender: '女' },
+    { id: 16, name: '聂又琪', gender: '女' },
+    { id: 17, name: '褚帅虎', gender: '男' },
+    { id: 18, name: '孙哲涵', gender: '男' },
+    { id: 19, name: '田青林', gender: '男' },
+    { id: 20, name: '李靖宇', gender: '男' },
+    { id: 21, name: '刘雨露', gender: '女' },
+    { id: 22, name: '高训华', gender: '男' },
+    { id: 23, name: '魏宇哲', gender: '男' },
+    { id: 24, name: '丁振宇', gender: '男' },
+    { id: 25, name: '张伊凡', gender: '男' },
+    { id: 26, name: '胡一依', gender: '女' },
+    { id: 27, name: '王俊淇', gender: '男' },
+    { id: 28, name: '卢亦萱', gender: '女' },
+    { id: 29, name: '田瑞', gender: '女' },
+    { id: 30, name: '谭欣怡', gender: '女' },
+    { id: 31, name: '杨典昭', gender: '男' },
+    { id: 32, name: '高星蕊', gender: '女' },
+    { id: 33, name: '罗陈龙', gender: '男' },
+    { id: 34, name: '曾益蓉', gender: '女' },
+    { id: 35, name: '王铭翔', gender: '男' },
+    { id: 36, name: '盛艺林', gender: '女' },
+    { id: 37, name: '袁子怡', gender: '女' },
+    { id: 38, name: '张卉妍', gender: '女' },
+    { id: 39, name: '刘响瑞', gender: '男' },
+    { id: 40, name: '李泽宇', gender: '男' },
+    { id: 41, name: '姚俊涵', gender: '女' },
+    { id: 42, name: '熊辰逸', gender: '男' },
+    { id: 43, name: '周阮航', gender: '男' },
+    { id: 44, name: '徐子涵', gender: '女' },
+    { id: 45, name: '邓雨泽', gender: '男' },
+    { id: 46, name: '高意洋', gender: '男' }
+  ];
+
+  let attendance = new Array(students.length).fill(false);
+
+  const studentList = document.getElementById('studentList');
+  const statsButton = document.getElementById('statsButton');
+  const studentIdInput = document.getElementById('studentId');
+
+  function renderList() {
+    studentList.innerHTML = '';
+    students.forEach((student, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `${student.id}. ${student.name} (${student.gender})`;
+
+      if (attendance[index]) {
+        li.style.color = "#008000"; // 深绿 已到
+      } else {
+        li.style.color = "#ff0000"; // 红 未到
+      }
+
+      studentList.appendChild(li);
+    });
+  }
+
+  // ★ 统计按钮：直接读取输入框内容，空格分隔多个学号
+  statsButton.addEventListener('click', () => {
+
+    const inputStr = studentIdInput.value.trim();
+    attendance.fill(false);
+
+    if (inputStr !== "") {
+      const ids = inputStr.split(/\s+/);
+      ids.forEach(numStr => {
+        const id = parseInt(numStr);
+        if (id >= 1 && id <= students.length) {
+          attendance[id - 1] = true; 
+        }
+      });
+    }
+
+    renderList();
+
+    const absentStudents = students.filter((_, i) => !attendance[i]).map(s => s.id);
+
+    if (absentStudents.length === 0) {
+      alert("全员已到！");
+    } else {
+      alert(absentStudents.join(", ") + " 号未到");
+    }
+  });
+
+  renderList();
+})();
+</script>
+
+</body>
+</html>
