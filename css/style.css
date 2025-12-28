@@ -100,7 +100,6 @@ body::before {
   transition: all 0.3s ease;
   width: 300px;
 }
-
 .bing-search-input {
   flex: 1;
   padding: 0 16px;
@@ -111,7 +110,6 @@ body::before {
   outline: none;
 }
 .bing-search-input::placeholder { color: rgba(255,255,255,0.7); }
-
 .bing-search-btn {
   background: var(--accent);
   color: white;
@@ -145,7 +143,6 @@ body::before {
   box-sizing: border-box;
 }
 .side-menu.open { left: 0; }
-
 .nav-link {
   display: flex; align-items: center; gap: 10px;
   padding: 10px 14px; border-radius: 10px; color: var(--text);
@@ -153,7 +150,6 @@ body::before {
   transition: 0.2s;
 }
 .nav-link:hover { background: rgba(255,255,255,0.1); transform: translateX(4px); }
-
 .overlay {
   position: fixed; inset: 0; background: rgba(0,0,0,0.45);
   opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 1700;
@@ -173,7 +169,6 @@ body::before {
 .avatar { width: 100px; height: 100px; border-radius: 50%; border: 4px solid rgba(255,255,255,0.3); margin-bottom: 16px; }
 h1 { font-size: 1.6rem; margin-bottom: 4px; }
 .tagline { font-size: 0.95rem; opacity: 0.9; margin-bottom: 16px; }
-
 .github-btn {
   display: inline-flex; align-items: center; gap: 8px;
   background: #6e40c9; color: white; padding: 10px 20px;
@@ -181,7 +176,6 @@ h1 { font-size: 1.6rem; margin-bottom: 4px; }
   transition: 0.3s;
 }
 .github-btn:hover { background: #5a32a3; transform: translateY(-2px); }
-
 .stats {
   display: flex; justify-content: center; gap: 32px;
   margin: 24px 0; padding: 16px 0;
@@ -190,7 +184,6 @@ h1 { font-size: 1.6rem; margin-bottom: 4px; }
 }
 .stat .number { font-size: 1.5rem; font-weight: bold; display: block; }
 .stat .label { font-size: 0.8rem; opacity: 0.8; }
-
 .tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .tag {
   background: rgba(255,255,255,0.2); padding: 6px 12px;
@@ -202,7 +195,6 @@ h1 { font-size: 1.6rem; margin-bottom: 4px; }
 .right-panel { display: flex; flex-direction: column; gap: var(--gap); }
 .intro-card ul { list-style: none; line-height: 1.8; font-size: 0.95rem; }
 .intro-card li:before { content: "•"; color: #a78bfa; margin-right: 8px; }
-
 .repo-item {
   background: rgba(255,255,255,0.1); padding: 14px; border-radius: 12px;
   margin-bottom: 12px; display: flex; justify-content: space-between;
@@ -214,17 +206,61 @@ h1 { font-size: 1.6rem; margin-bottom: 4px; }
 .repo-item .lang { font-size: 0.75rem; padding: 2px 6px; background: rgba(255,255,255,0.2); border-radius: 4px; }
 .loading { text-align: center; opacity: 0.7; font-style: italic; }
 
+/* === 签到区域：全局样式 === */
+.search-area {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.sign-in-form {
+  flex: 1;
+}
+.signin-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+.signin-input:focus {
+  border-color: #3b82f6;
+}
+
+/* 统计按钮：全局自定义样式（桌面 + 手机统一） */
+.stats-btn {
+  padding: 10px 20px;
+  background: #3b82f6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 1rem;
+  appearance: none;              /* 移除浏览器默认外观 */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: background 0.2s ease;
+}
+.stats-btn:hover {
+  background: #2563eb;
+}
+.stats-btn:active {
+  transform: scale(0.98);
+}
+
 /* === 手机端响应式（放在最后，优先级最高）=== */
 @media (max-width: 768px) {
   .container {
     grid-template-columns: 1fr;
-    margin: 80px auto 20px; padding: 0 16px;
+    margin: 80px auto 20px;
+    padding: 0 16px;
   }
-
   .topbar {
     padding: 0 80px 0 14px;
   }
-
   /* 搜索框折叠 */
   .bing-search {
     width: 44px;
@@ -234,20 +270,17 @@ h1 { font-size: 1.6rem; margin-bottom: 4px; }
     justify-content: center;
     transition: all 0.3s ease;
   }
-
   .bing-search-input {
     display: none;
     width: 0;
     padding: 0;
   }
-
   .bing-search-btn {
     margin: 0;
     width: 44px;
     height: 44px;
   }
-
-  /* 展开：fixed 悬浮，紧贴顶部 */
+  /* 展开搜索 */
   .bing-search.expanded {
     position: fixed;
     top: 0;
@@ -264,25 +297,125 @@ h1 { font-size: 1.6rem; margin-bottom: 4px; }
     backdrop-filter: var(--blur);
     border: 1px solid var(--border-glass);
   }
-
   .bing-search.expanded .bing-search-input {
     display: block;
     flex: 1;
     padding: 0 12px;
   }
-
   .bing-search.expanded .bing-search-btn {
     margin-right: 4px;
     width: 40px;
     height: 40px;
   }
-
-  /* 手机端菜单：强制 50% 宽度 */
+  /* 手机端菜单 */
   .side-menu {
     left: -50% !important;
     width: 50% !important;
   }
   .side-menu.open {
     left: 0 !important;
+  }
+  /* 签到区域：手机垂直布局 + 按钮全宽 */
+  .search-area {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .stats-btn {
+    width: 100%;
+  }
+
+  /* === 签到输入框：毛玻璃版（参考 Bing 搜索框） === */
+  .signin-search {
+    width: 100%;
+    height: 48px;
+    background: var(--bg-glass);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+    border: 1px solid var(--border-glass);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    box-shadow: var(--shadow);
+  }
+
+  /* 确保 input 透明 + 无边框 */
+  .bing-search-input {
+    flex: 1;
+    padding: 0 16px;
+    background: transparent !important; /* 关键：透明让 blur 可见 */
+    border: none;
+    color: var(--text);
+    font-size: 1rem;
+    outline: none;
+  }
+
+  /* 输入框本体：必须透明 */
+  .signin-search input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-size: 1rem;
+  }
+
+  .signin-search input::placeholder {
+  color: rgba(255,255,255,0.7);
+  }
+
+  /* 手机端适配 */
+  @media (max-width: 768px) {
+    .search-area {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    .signin-search {
+      height: 52px; /* 手机大一点好点 */
+    }
+    .stats-btn {
+      width: 100%;
+    }
+  }
+
+  /* === 签到输入框 · 真正主题自适应毛玻璃 === */
+  .signin-search {
+    width: 100%;
+    height: 52px;
+    display: flex;
+    align-items: center;
+
+    /* 关键：全部走主题变量 */
+    background: var(--bg-glass);
+    backdrop-filter: var(--blur);
+    -webkit-backdrop-filter: var(--blur);
+
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
+
+    padding: 0 18px;
+  }
+
+  /* 输入框本体：必须 100% 透明 */
+  .signin-search input {
+    width: 100%;
+    height: 100%;
+    background: transparent !important;
+    border: none !important;
+    outline: none;
+
+    color: var(--text);
+    font-size: 1rem;
+  }
+
+  /* placeholder 跟主题走 */
+  .signin-search input::placeholder {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  /* 深色模式下稍微压暗一点 */
+  body.dark-mode .signin-search input::placeholder {
+    color: rgba(255, 255, 255, 0.45);
   }
 }
