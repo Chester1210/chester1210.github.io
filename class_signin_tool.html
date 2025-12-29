@@ -3,9 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>夏立琉的博客 - 班级签到工具</title>
+  <title>幽兰拿铁的博客 - 班级签到工具</title>
   <link rel="stylesheet" href="css/style.css" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* 修复手机端输入框无法点击 */
+    #signInForm input {
+      position: relative;
+      z-index: 10;
+      touch-action: manipulation; /* 优化触控操作 */
+    }
+
+    .search-area {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .search-area {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      #statsButton {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
 <body>
 
@@ -15,7 +41,7 @@
       <i class="fas fa-bars"></i>
     </button>
 
-    <div class="site-title">夏立琉的博客 - 班级签到</div>
+    <div class="site-title">幽兰拿铁的博客 - 班级签到</div>
 
     <div class="topbar-right">
       <form action="https://www.bing.com/search" target="_blank" method="GET" class="bing-search" id="bingForm">
@@ -49,8 +75,8 @@
   <div class="container">
     <aside class="left-panel">
       <div class="profile-card glass">
-        <img src="assets/avatar.jpg" alt="夏立琉" class="avatar" />
-        <h1>夏立琉</h1>
+        <img src="assets/avatar.jpg" alt="幽兰拿铁" class="avatar" />
+        <h1>幽兰拿铁</h1>
         <p class="tagline">Python Developer</p>
         <a href="https://github.com/Chester1210" target="_blank" class="github-btn">
           <i class="fab fa-github"></i> 访问我的 GitHub
@@ -88,14 +114,21 @@
     <main class="right-panel">
       <div class="sign-in-card glass">
         <h2><i class="fas fa-check-circle"></i> 班级签到点名工具</h2>
-        <div class="search-area" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <form id="signInForm" style="flex: 1; margin-right: 10px;">
-            <input type="text" id="studentId" placeholder="输入多个学号，用空格分隔..." class="bing-search-input" autocomplete="off" style="width: 100%;" />
-          </form>
-          <button id="statsButton" class="theme-toggle" style="padding: 10px 20px; background: #3b82f6; color: white; border: none; border-radius: 5px; cursor: pointer;">
-            <i class="fas fa-chart-bar"></i> 统计
-          </button>
-        </div>
+          <div class="search-area">
+            <form id="signInForm" class="sign-in-form">
+              <div class="signin-search glass">
+                <input
+                  type="text"
+                  id="studentId"
+                  placeholder="输入多个学号，用空格分隔..."
+                  autocomplete="off">
+              </div>
+            </form>
+
+            <button id="statsButton" class="stats-btn">
+              <i class="fas fa-chart-bar"></i> 统计
+            </button>
+          </div>
         <ul id="studentList" class="student-list"></ul>
       </div>
     </main>
@@ -178,9 +211,7 @@
     });
   }
 
-  // ★ 统计按钮：直接读取输入框内容，空格分隔多个学号
   statsButton.addEventListener('click', () => {
-
     const inputStr = studentIdInput.value.trim();
     attendance.fill(false);
 
@@ -207,6 +238,25 @@
 
   renderList();
 })();
+
+const menuToggle = document.getElementById('menuToggle');
+const sideMenu = document.getElementById('sideMenu');
+const overlay = document.getElementById('overlay');
+
+menuToggle.addEventListener('click', () => {
+  sideMenu.classList.toggle('open');
+  overlay.classList.toggle('show');
+  sideMenu.setAttribute(
+    'aria-hidden',
+    !sideMenu.classList.contains('open')
+  );
+});
+
+overlay.addEventListener('click', () => {
+  sideMenu.classList.remove('open');
+  overlay.classList.remove('show');
+  sideMenu.setAttribute('aria-hidden', 'true');
+});
 </script>
 
 </body>
